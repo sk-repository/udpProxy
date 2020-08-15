@@ -4,7 +4,7 @@
 #
 import socket
 
-# set these values
+# Initial values
 bufsize = 8192
 target_host = "127.0.0.1"
 target_port1 = 9002
