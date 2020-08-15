@@ -16,9 +16,9 @@ listen_port = 9001
 def forward(data, port):
     print("Forwarding: '%s' from port %s" % (data, port))
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(("localhost", port))                          # Bind to the port data came in on 9001
-    sock.sendto(data, (target_host, target_port1))          # Send data to 9002
-    sock.sendto(data, (target_host, target_port2))          # Send data to 9003
+    sock.bind(("localhost", port))  # Bind to the port data came in on 9001
+    sock.sendto(data, (target_host, target_port1))  # Send data to 9002
+    sock.sendto(data, (target_host, target_port2))  # Send data to 9003
 
 
 def listen(host, port):
@@ -27,9 +27,21 @@ def listen(host, port):
     print("*** Listening on %s:%s" % (host, port))
     while True:
         data, addr = listen_socket.recvfrom(bufsize)
-        forward(data, addr[1])                              # data and port1
+        forward(data, addr[1])  # data and port1
 
 
 # main
-listen(listen_host, listen_port)
-
+try:
+    listen(listen_host, listen_port)
+except AttributeError as err:
+    print(err)
+except ConnectionError as err:
+    print(err)
+except ConnectionAbortedError as err:
+    print(err)
+except ConnectionRefusedError as err:
+    print(err)
+except BufferError as err:
+    print(err)
+except OSError as err:
+    print(err)
