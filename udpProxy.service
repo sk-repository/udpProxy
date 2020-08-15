@@ -1,0 +1,14 @@
+[Unit]
+Description=PxVS-Frames-udpProxy
+After=network.target
+Conflicts=getty@tty1.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/python /opt/udpProxy.py
+Restart=always
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
