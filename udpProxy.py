@@ -5,20 +5,19 @@
 import socket
 
 # Initial values
-bufsize = 8192
-target_host = "127.0.0.1"
-target_port1 = 9002
-target_port2 = 9003
-listen_host = "192.168.204.49"
-listen_port = 9001
+bufSize = 8192
+targetHost = "127.0.0.1"
+targetPorts = [9002, 9003]
+listenHost = "0.0.0.0"
+listenPort = 9001
 
 
 def forward(data, port):
     print("Forwarding: '%s' from port %s" % (data, port))
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(("localhost", port))  # Bind to the port data came in on 9001
-    sock.sendto(data, (target_host, target_port1))  # Send data to 9002
-    sock.sendto(data, (target_host, target_port2))  # Send data to 9003
+    for destinationPort in targetPorts:
+        sock.sendto(data, (targetHost, destinationPort))
 
 
 def listen(host, port):
@@ -26,13 +25,13 @@ def listen(host, port):
     listen_socket.bind((host, port))
     print("*** Listening on %s:%s" % (host, port))
     while True:
-        data, addr = listen_socket.recvfrom(bufsize)
-        forward(data, addr[1])  # data and port1
+        data, addr = listen_socket.recvfrom(bufSize)
+        forward(data, addr[1])  # data and port
 
 
 # main
 try:
-    listen(listen_host, listen_port)
+    listen(listenHost, listenPort)
 except AttributeError as err:
     print(err)
 except ConnectionError as err:
