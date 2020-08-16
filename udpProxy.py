@@ -7,8 +7,8 @@ import socket
 # Initial values
 bufSize = 8192
 targetHost = "127.0.0.1"
-targetPorts = [9002, 9003]
-listenHost = "0.0.0.0"
+targetPorts = [9002, 9003]  # [RDM Port, CeSIP Port]
+listenHost = "192.168.204.49"
 listenPort = 9001
 
 
@@ -32,15 +32,5 @@ def listen(host, port):
 # main
 try:
     listen(listenHost, listenPort)
-except AttributeError as err:
-    print(err)
-except ConnectionError as err:
-    print(err)
-except ConnectionAbortedError as err:
-    print(err)
-except ConnectionRefusedError as err:
-    print(err)
-except BufferError as err:
-    print(err)
 except OSError as err:
     print(err)
